@@ -25,8 +25,8 @@
                 <form>
                     <sheet>
                         <group string = 'Department Information'>
-                            <field name="name"/>
-                            <field name="capacity"/>
+                            <field name="name" placeholder='Enter Department Name'/>
+                            <field name="capacity" placeholder='Enter Department Capacity'/>
                             <field name="is_opened"/>
                         </group>
                         <group string = 'Patients Information'>
