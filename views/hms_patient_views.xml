@@ -3,9 +3,66 @@
         <record id="patient_action" model="ir.actions.act_window">
             <field name="name">Patients</field>
             <field name="res_model">hms.patient</field>
+            <field name="view_mode">tree,form,kanban</field>
+        </record>
+
+        <record id="hms_patient_tree_view" model="ir.ui.view">
+            <field name="name">Patient Tree View</field>
+            <field name="model">hms.patient</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="first_name"/>
+                    <field name="last_name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="hms_patient_form_view" model="ir.ui.view">
+            <field name="name">Patient Form View</field>
+            <field name="model">hms.patient</field>
+            <field name="arch" type="xml">
+                <form string="Patient Form">
+                    <sheet>
+                        <group>
+                            <group string="Personal Information">
+                                <field name="first_name" placeholder='Enter First Name'/>
+                                <field name="last_name" placeholder='Enter Last Name'/>
+                                <field name="birth_date" placeholder='Enter Birth Date'/>
+                                <field name="age" readonly="1"/>
+                            </group>
+                            <group string="Healthy Information">
+                                <field name="pcr"/>
+                                <!-- if The pcr field is checked, the CR ratio field should be mandatory-->
+                                <field name="cr_ratio" attrs="{'required': [('pcr', '=', True)]}" placeholder="Enter CR Ratio as a float number like 0.00"/>
+                                <field name="blood_type" placeholder='Select Blood Type'/>
+                                <field name="state" placeholder='Select State'/>
+                            </group>
+                        </group>
+
+                        <group string="Additional Information">
+                            <field name="history" placeholder="Type History Here" attrs="{'invisible': [('age', '&lt;', 50)]}"/>
+                            <field name="address" placeholder="Type Address Here"/>
+                            <field name="image"/>
+                        </group>
+
+                        <group string="Department Information">
+                            <field name="department_id" domain="[('is_opened', '=', True)]" placeholder="Select Department"/> <!-- The patient can’t choose a closed department -->
+                            <field name="department_capacity"/>
+                        </group>
+
+                        <group string="Doctors Information">
+                            <field name="doctor_ids" widget="many2many_tags" attrs="{'readonly': [('department_id', '=', False)]}" domain="[('department_id', '=', department_id)]"/>
+                        </group>
+
+                        <group string="Patient Log History">
+                            <field name="log_history_ids"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
         </record>
 
         <menuitem id="hospital_menu" name="Hospital Management System"/>
-        <menuitem id="patient_menu" name="Patient" parent="hospital_menu" action="patient_action"/>
+        <menuitem id="patient_menu" name="Patient" parent="hospital_menu" action="patient_action" sequence="1"/>
     </data>
 </odoo>
