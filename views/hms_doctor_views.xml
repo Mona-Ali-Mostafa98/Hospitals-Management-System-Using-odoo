@@ -1,0 +1,50 @@
+<odoo>
+    <data>
+        <record id = 'doctor_action' model = 'ir.actions.act_window'>
+            <field name="name">Doctors</field>
+            <field name='res_model'>hms.doctor</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="hms_doctor_tree_view" model="ir.ui.view">
+            <field name="name">Doctor Tree View</field>
+            <field name="model">hms.doctor</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="first_name"/>
+                    <field name="last_name"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id = 'hms_doctor_form_view' model = 'ir.ui.view'>
+            <field name="name">Doctor Form View</field>
+            <field name="model">hms.doctor</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group string = 'data'>
+                            <field name="first_name"/>
+                            <field name="last_name"/>
+                            <field name="image"/>
+                        </group>
+                        <group string="Department Information">
+                            <field name="department_id" domain="[('is_opened', '=', True)]" placeholder="Select Department"/> <!-- The patient can’t choose a closed department -->
+                        </group>
+                        <!--<group string = 'Students Information'>
+                            <field name = 'student_ids'>
+                                <tree>
+                                    <field name = "name"/>
+                                    <field name="is_accepted"/>
+                                </tree>
+                            </field>
+                        </group>-->
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+
+        <menuitem id="doctor_menu" name="Doctors" parent="hospital_menu" action="doctor_action" sequence ='3'/>
+    </data>
+</odoo>
