@@ -1,5 +1,17 @@
 <odoo>
     <data>
+        <record id="hms_customer_tree_view" model="ir.ui.view">
+            <field name="name">Customer Tree View</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='display_name']" position="after">
+                    <field name="website"/>
+                </xpath>
+            </field>
+        </record>
+
+
         <record id="hms_customer_form_view" model="ir.ui.view">
             <field name="name">Customer Form View</field>
             <field name="model">res.partner</field>
@@ -9,7 +21,7 @@
                     <attribute name="required">1</attribute>
                 </field>
 
-                <xpath expr="//notebook//page[@name='sales_purchases']//group[@name='misc']" position="after">
+                <xpath expr="//notebook//page[@name='sales_purchases']//group[@name='misc']" position="after"> <!-- //notebook//page[@name='sales_purchases'] inside-->
                     <group string="Patient Related">
                         <field name="related_patient_id"/>
                     </group>

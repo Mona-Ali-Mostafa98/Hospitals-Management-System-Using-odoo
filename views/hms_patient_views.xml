@@ -68,6 +68,16 @@
                                 </tree>
                             </field>
                         </group>
+
+                        <group string="Customer Related">
+                            <field name="customer_id" readonly="1">
+                                <tree>
+                                    <field name="name"/>
+                                    <field name="vat"/>
+                                    <field name="website"/>
+                                </tree>
+                            </field>
+                        </group>
                     </sheet>
                 </form>
             </field>
