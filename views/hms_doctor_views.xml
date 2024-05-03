@@ -13,6 +13,7 @@
                 <tree>
                     <field name="first_name"/>
                     <field name="last_name"/>
+                   <!-- <field name="image" widget="image_small" class="oe_avatar" options='{"widget": {"width": 50, "height": 50}}'/>-->
                 </tree>
             </field>
         </record>
@@ -24,8 +25,8 @@
                 <form>
                     <sheet>
                         <group string = 'data'>
-                            <field name="first_name" placeholder='Enter Department First Name'/>
-                            <field name="last_name" placeholder='Enter Department Last Name'/>
+                            <field name="first_name" placeholder='Enter Doctor First Name'/>
+                            <field name="last_name" placeholder='Enter Doctor Last Name'/>
                             <field name="image"/>
                         </group>
                         <group string="Department Information">

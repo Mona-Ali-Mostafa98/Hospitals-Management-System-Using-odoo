@@ -13,6 +13,8 @@
                 <tree>
                     <field name="first_name"/>
                     <field name="last_name"/>
+                    <field name="email"/>
+                    <field name="state"/>
                 </tree>
             </field>
         </record>
@@ -27,6 +29,8 @@
                             <group string="Personal Information">
                                 <field name="first_name" placeholder='Enter First Name'/>
                                 <field name="last_name" placeholder='Enter Last Name'/>
+                                <field name="email" placeholder='Enter Email'/>
+                                <field name="phone_number" placeholder='Enter Phone number'/>
                                 <field name="birth_date" placeholder='Enter Birth Date'/>
                                 <field name="age" readonly="1"/>
                             </group>
@@ -55,7 +59,14 @@
                         </group>
 
                         <group string="Patient Log History">
-                            <field name="log_history_ids"/>
+                            <field name="log_history_ids">
+                                <tree>
+                                    <field name="id"/>
+                                    <field name="description"/>
+                                    <field name="create_uid"/>
+                                    <field name="create_date"/>
+                                </tree>
+                            </field>
                         </group>
                     </sheet>
                 </form>

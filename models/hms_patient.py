@@ -20,9 +20,12 @@ class Patient(models.Model):
     pcr = fields.Boolean(string='PCR')
     image = fields.Image(string='Image', help="Patient's Image")
     address = fields.Text(string='Address')
-    age = fields.Integer(string='Age', compute='_compute_age') #store=False
+    age = fields.Integer(string='Age', compute='_compute_age') # store = False not save in db, True mean create column in db, _ means private function
+    # lecture 3 - new columns
+    email = fields.Char(string='Email', required=True)
+    phone_number = fields.Char(string='Phone Number', required=True, unique=True) # don't need to explicitly define in the _sql_constraints attribute
 
-    # relations - new columns
+    # lecture 2 - relations - new columns
     department_id = fields.Many2one(comodel_name='hms.department', string='Department')
     department_capacity = fields.Integer(related = 'department_id.capacity') # related field take the same type in main table
 
@@ -37,14 +40,27 @@ class Patient(models.Model):
         ('serious', 'Serious')
     ], string='State', default='undetermined')
 
-
-
     """
         ***********************************************************************************************************************
                                 method decorators used in Odoo's ORM, define certain behaviors for model methods 
         ***********************************************************************************************************************
     """
-    @api.depends('birth_date')
+    _sql_constraints = [
+        ('check_email_uniqueness', 'UNIQUE(email)', 'Email must be unique and this email already exists, use another one.'),
+        ('check_valid_email', "CHECK(email ~* '[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}')", 'Invalid email format.'),  # validate the email format
+        ('check_department_id', 'CHECK(department_id IS NOT NULL)', 'Department ID is required.'),
+        # ('check_valid_department_id', 'FOREIGN KEY(department_id) REFERENCES departments(id)', 'Department ID must exist in departments table'), # Ensures referential integrity
+        ('check_valid_phone_number', "CHECK(phone_number ~* '^01[0125]\d{8}$')", 'Phone number must start with 010, 011, 012, or 015'),
+    ]
+
+    @api.constrains('birth_date')
+    def _check_birth_date_before_current_date(self): # "CHECK(birth_date <= CURRENT_DATE)" not working in _sql_constraints
+        for rec in self:
+            if rec.birth_date and rec.birth_date > fields.Date.today():
+                raise ValidationError('Birth date must be before or equal to the current date')
+
+    # ***********************************************************************************************************************
+    @api.depends('birth_date') # fire as ajax
     def _compute_age(self):
         for rec in self: # rec is record -> patient
             if rec.birth_date:
@@ -93,8 +109,6 @@ class Patient(models.Model):
             if rec.state:
                 rec.log_history_ids.create({
                     'patient_id': rec.id,
-                    'created_by': self.env.user.id,
-                    'date': fields.Date.today(),
                     'description': 'State changed to %s' % rec.state
                     # 'description': f"State changed to {dict(self._fields['state'].selection).get(rec.state)}"
                 })
