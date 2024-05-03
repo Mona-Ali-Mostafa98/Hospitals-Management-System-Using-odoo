@@ -24,6 +24,7 @@ class Patient(models.Model):
     # lecture 3 - new columns
     email = fields.Char(string='Email', required=True)
     phone_number = fields.Char(string='Phone Number', required=True, unique=True) # don't need to explicitly define in the _sql_constraints attribute
+    customer_id = fields.Many2one(comodel_name="res.partner", string='Customer Related', inverse_name="related_patient_id")
 
     # lecture 2 - relations - new columns
     department_id = fields.Many2one(comodel_name='hms.department', string='Department')
@@ -67,10 +68,6 @@ class Patient(models.Model):
                 today = fields.Date.today()
                 delta = today - rec.birth_date
                 rec.age = delta.days // 365
-                if rec.age < 30:
-                    rec.pcr = True
-                else:
-                    rec.pcr = False
             else:
                 rec.age = 0
 
@@ -79,7 +76,8 @@ class Patient(models.Model):
     @api.onchange('age')
     def _onchange_age(self):
         for rec in self:
-            if rec.pcr and rec.age < 30:
+            if rec.age < 30 and rec.age != 0:
+                rec.pcr = True
                 return { #UserWarning
                     'warning': {'title': 'PCR field has been automatically',
                                 'message': 'PCR field has been automatically checked due to age being lower than 30.'}

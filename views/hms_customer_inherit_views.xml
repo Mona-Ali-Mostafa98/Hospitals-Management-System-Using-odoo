@@ -1,0 +1,20 @@
+<odoo>
+    <data>
+        <record id="hms_customer_form_view" model="ir.ui.view">
+            <field name="name">Customer Form View</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <field name="vat" position="attributes"> <!-- Tax ID is required-->
+                    <attribute name="required">1</attribute>
+                </field>
+
+                <xpath expr="//notebook//page[@name='sales_purchases']//group[@name='misc']" position="after">
+                    <group string="Patient Related">
+                        <field name="related_patient_id"/>
+                    </group>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
