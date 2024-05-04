@@ -1,7 +1,7 @@
 from odoo import models, fields, api
 
 class PatientLogHistory(models.Model):
-    _name = 'hms.log_history'
+    _name = 'hms.log.history'
     _description = 'Patient Log History'
     _rec_name = 'description'
 

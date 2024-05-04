@@ -38,6 +38,6 @@
         </record>
 
 
-        <menuitem id="doctor_menu" name="Doctors" parent="hospital_menu" action="doctor_action" sequence ='3'/>
+        <menuitem id="doctor_menu" name="Doctors" parent="hospital_menu" action="doctor_action" sequence ='3' groups="hospital_management_system.manager_group"/>
     </data>
 </odoo>

@@ -54,7 +54,7 @@
                             <field name="department_capacity"/>
                         </group>
 
-                        <group string="Doctors Information">
+                        <group string="Doctors Information" groups="hospital_management_system.manager_group">
                             <field name="doctor_ids" widget="many2many_tags" attrs="{'readonly': [('department_id', '=', False)]}" domain="[('department_id', '=', department_id)]"/>
                         </group>
 
@@ -84,6 +84,6 @@
         </record>
 
         <menuitem id="hospital_menu" name="Hospital Management System"/>
-        <menuitem id="patient_menu" name="Patient" parent="hospital_menu" action="patient_action" sequence="1"/>
+        <menuitem id="patient_menu" name="Patient" parent="hospital_menu" action="patient_action" sequence="1" groups="hospital_management_system.manager_group,hospital_management_system.users_group"/>
     </data>
 </odoo>

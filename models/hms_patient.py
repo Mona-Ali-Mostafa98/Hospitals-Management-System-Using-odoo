@@ -32,7 +32,7 @@ class Patient(models.Model):
 
     doctor_ids = fields.Many2many(comodel_name='hms.doctor', string='Doctors', readonly=True)
 
-    log_history_ids = fields.One2many(comodel_name='hms.log_history', inverse_name='patient_id', string='Log History')
+    log_history_ids = fields.One2many(comodel_name='hms.log.history', inverse_name='patient_id', string='Log History')
 
     state = fields.Selection([
         ('undetermined', 'Undetermined'),
